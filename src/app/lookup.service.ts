@@ -7,7 +7,7 @@ import { LicenseInfo } from './LicenseInfo';
   providedIn: 'root',
 })
 export class LookupService {
-  public baseUrl = 'https://localhost:7250/licensefinder';
+   baseUrl = 'https://localhost:7250/licensefinder';
 
   constructor(private httpClient: HttpClient) {}
 

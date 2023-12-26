@@ -46,11 +46,75 @@
     diameter="50"
   ></mat-progress-spinner>
 
-  <div *ngIf="dataSource.data.length > 0">
-    <!-- license-table.component.html -->
+  <!-- <div *ngIf="dataSource.data.length > 0 && !hasPaid"> -->
+    <div *ngIf="dataSource.data.length > 0 && !hasPaid">
+<p>
+  Found {{dataSource.data.length + 1}} license results. Please make a payment to view or download them.
+</p>
+
+<form class="checkout-form" [formGroup]="paymentForm">
+  <mat-form-field>
+    <mat-label>Cardholder Name</mat-label>
+    <input
+      matInput
+      formControlName="name"
+      class="example-form-fields"
+      placeholder="Name"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Cardholder Email</mat-label>
+    <input
+      matInput
+      formControlName="email"
+      class="example-form-fields"
+      placeholder="email"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Amount</mat-label>
+    <input
+      matInput
+      formControlName="amount"
+      class="example-form-fields"
+      placeholder="Amount"
+      type="number"
+    />
+  </mat-form-field>
+
+
+  <div class="stripe-card" ngxStripeCardGroup [elementsOptions]="elementsOptions">
+    <h4>Enter payment details</h4>
+
+    <div class="stripe-element">
+      <ngx-stripe-card-number
+        [options]="cardOptions"
+      ></ngx-stripe-card-number>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="10px">
+      <div class="w-full stripe-element">
+        <ngx-stripe-card-expiry
+          [options]="cardOptions"
+        ></ngx-stripe-card-expiry>
+      </div>
+      <div class="w-full stripe-element">
+        <ngx-stripe-card-cvc
+          [options]="cardOptions"
+        ></ngx-stripe-card-cvc>
+      </div>
+    </div>
+  </div>
+  <button
+  mat-raised-button
+  color="primary"
+  type="submit"
+(click)="pay()">Submit Payment</button>
+</form>
+
+  <div>
 <div>
-
-
     <button
       mat-raised-button
       color="primary"

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,7 +15,9 @@ import {MatRadioModule} from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelect, MatSelectModule } from '@angular/material/select';
+import {  MatSelectModule } from '@angular/material/select';
+import { NgxStripeModule } from 'ngx-stripe';
+import { environment } from './environments/environment';
 
 @NgModule({
   declarations: [
@@ -38,8 +39,8 @@ import { MatSelect, MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     MatOptionModule,
-    MatSelectModule
-  ],
+    MatSelectModule,
+    NgxStripeModule.forRoot(environment.stripe.publicKey)  ],
   providers: [
     provideClientHydration()
   ],
