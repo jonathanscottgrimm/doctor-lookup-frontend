@@ -34,6 +34,7 @@ export class AppComponent {
   searchForm: FormGroup;
   loading = false;
   hasPaid = false;
+  showPayment = false;
 
   @ViewChild(StripeCardNumberComponent)
   card!: StripeCardNumberComponent;

@@ -7,7 +7,7 @@ import { LicenseInfo } from './LicenseInfo';
   providedIn: 'root',
 })
 export class LookupService {
-   baseUrl = 'https://localhost:7250/licensefinder';
+   baseUrl = 'https://doclicenselookupapi20240119105712.azurewebsites.net/licensefinder';
 
   constructor(private httpClient: HttpClient) {}
 

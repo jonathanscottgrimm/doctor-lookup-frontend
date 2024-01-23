@@ -6,3 +6,4 @@ export class LicenseInfo {
   errorMessage!: string;
 }
 
+export class ResponseWrapper {}

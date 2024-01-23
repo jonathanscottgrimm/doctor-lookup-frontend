@@ -1,14 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PaymentIntent } from '@stripe/stripe-js';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class PaymentsService {
-  baseUrl = 'https://localhost:7250/payments';
+  baseUrl = 'https://doclicenselookupapi20240119105712.azurewebsites.net/payments';
   constructor(private http: HttpClient) { }
 
   createPaymentIntent(amount: number): Observable<any> {

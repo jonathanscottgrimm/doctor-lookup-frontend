@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/3e9fc6da-f7b2-4bd7-a891-98e0f6b1e66f/resourceGroups/MedicalLicenseLookup_group/providers/Microsoft.Web/sites/MedLicenseLookupFrontEnd",
+    "appService.deploySubpath": "."
+}

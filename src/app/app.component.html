@@ -47,102 +47,106 @@
   ></mat-progress-spinner>
 
   <!-- <div *ngIf="dataSource.data.length > 0 && !hasPaid"> -->
-    <div *ngIf="dataSource.data.length > 0 && !hasPaid">
-<p>
-  Found {{dataSource.data.length + 1}} license results. Please make a payment to view or download them.
-</p>
+  <div *ngIf="showPayment">
+    <p>
+      Found {{ dataSource.data.length + 1 }} license results. Please make a
+      payment to view or download them.
+    </p>
 
-<form class="checkout-form" [formGroup]="paymentForm">
-  <mat-form-field>
-    <mat-label>Cardholder Name</mat-label>
-    <input
-      matInput
-      formControlName="name"
-      class="example-form-fields"
-      placeholder="Name"
-    />
-  </mat-form-field>
+    <form class="checkout-form" [formGroup]="paymentForm">
+      <mat-form-field>
+        <mat-label>Cardholder Name</mat-label>
+        <input
+          matInput
+          formControlName="name"
+          class="example-form-fields"
+          placeholder="Name"
+        />
+      </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Cardholder Email</mat-label>
-    <input
-      matInput
-      formControlName="email"
-      class="example-form-fields"
-      placeholder="email"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Amount</mat-label>
-    <input
-      matInput
-      formControlName="amount"
-      class="example-form-fields"
-      placeholder="Amount"
-      type="number"
-    />
-  </mat-form-field>
+      <mat-form-field>
+        <mat-label>Cardholder Email</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          class="example-form-fields"
+          placeholder="email"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Amount</mat-label>
+        <input
+          matInput
+          formControlName="amount"
+          class="example-form-fields"
+          placeholder="Amount"
+          type="number"
+        />
+      </mat-form-field>
 
+      <div
+        class="stripe-card"
+        ngxStripeCardGroup
+        [elementsOptions]="elementsOptions"
+      >
+        <h4>Enter payment details</h4>
 
-  <div class="stripe-card" ngxStripeCardGroup [elementsOptions]="elementsOptions">
-    <h4>Enter payment details</h4>
+        <div class="stripe-element">
+          <ngx-stripe-card-number
+            [options]="cardOptions"
+          ></ngx-stripe-card-number>
+        </div>
 
-    <div class="stripe-element">
-      <ngx-stripe-card-number
-        [options]="cardOptions"
-      ></ngx-stripe-card-number>
-    </div>
-
-    <div fxLayout="row" fxLayoutGap="10px">
-      <div class="w-full stripe-element">
-        <ngx-stripe-card-expiry
-          [options]="cardOptions"
-        ></ngx-stripe-card-expiry>
+        <div fxLayout="row" fxLayoutGap="10px">
+          <div class="w-full stripe-element">
+            <ngx-stripe-card-expiry
+              [options]="cardOptions"
+            ></ngx-stripe-card-expiry>
+          </div>
+          <div class="w-full stripe-element">
+            <ngx-stripe-card-cvc [options]="cardOptions"></ngx-stripe-card-cvc>
+          </div>
+        </div>
       </div>
-      <div class="w-full stripe-element">
-        <ngx-stripe-card-cvc
-          [options]="cardOptions"
-        ></ngx-stripe-card-cvc>
-      </div>
-    </div>
-  </div>
-  <button
-  mat-raised-button
-  color="primary"
-  type="submit"
-(click)="pay()">Submit Payment</button>
-</form>
-
-  <div>
-<div>
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="exportToCSV()"
-      style="margin-right: 15px"
-    >
-      Export to CSV
-    </button>
-    <button mat-raised-button color="primary" (click)="exportToPDF()">
-      Export to PDF
-    </button>
-  </div>
-
-    <table
-      mat-table
-      id="licenseTable"
-      [dataSource]="dataSource"
-      class="mat-elevation-z8"
-    >
-      <!-- Define columns -->
-      <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
-        <th mat-header-cell *matHeaderCellDef>{{ col | titlecase }}</th>
-        <td mat-cell *matCellDef="let element">{{ element[col] | titlecase }}</td>
-      </ng-container>
-
-      <!-- Row with columns -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </div>
+      <button mat-raised-button color="primary" type="submit" (click)="pay()">
+        Submit Payment
+      </button>
+    </form>
 </div>
+    <div>
+      <div>
+        </div>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="exportToCSV()"
+          style="margin-right: 15px"
+        >
+          Export to CSV
+        </button>
+        <button mat-raised-button color="primary" (click)="exportToPDF()">
+          Export to PDF
+        </button>
+      </div>
+
+      <table
+        mat-table
+        id="licenseTable"
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+      >
+        <!-- Define columns -->
+        <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+          <th mat-header-cell *matHeaderCellDef>{{ col | titlecase }}</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element[col] | titlecase }}
+          </td>
+        </ng-container>
+
+        <!-- Row with columns -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+  </div>
+
