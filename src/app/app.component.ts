@@ -14,7 +14,15 @@ import {
   PaymentIntent,
 } from '@stripe/stripe-js';
 import { PaymentsService } from './payments.service';
-import { switchMap } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  from,
+  mergeMap,
+  of,
+  scan,
+  switchMap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +32,7 @@ import { switchMap } from 'rxjs';
 export class AppComponent {
   displayedColumns: string[] = [
     'state',
+    'name',
     'licenseNumber',
     'licenseStatus',
     'licenseExpiration',
@@ -61,7 +70,7 @@ export class AppComponent {
   paymentForm: FormGroup = this.formBuilder.group({
     name: 'John',
     email: 'john@gmail.com',
-    amount: 15
+    amount: 15,
   });
 
   constructor(
@@ -84,18 +93,37 @@ export class AppComponent {
     const lastName = this.searchForm.get('lastName')?.value!;
     const isDoSearch: boolean = this.searchForm.get('mdOrDo')?.value! === 'DO';
 
-    this._lookupService
-      .GetLicenseInfo(lastName, firstName, isDoSearch)
-      .subscribe(
-        (data: LicenseInfo[]) => {
-          this.dataSource.data = data;
-          this.loading = false;
-        },
-        (error) => {
-          console.error('Error fetching data:', error);
-          this.loading = false;
-        }
-      );
+    const apiCalls = [
+      this._lookupService.getGroupOne(firstName, lastName, isDoSearch),
+      this._lookupService.getGroupTwo(firstName, lastName, isDoSearch),
+      this._lookupService.getGroupThree(firstName, lastName, isDoSearch),
+      this._lookupService.getGroupFour(firstName, lastName, isDoSearch),
+      this._lookupService.getGroupFive(firstName, lastName, isDoSearch),
+      this._lookupService.getGroupSix(firstName, lastName, isDoSearch),
+      this._lookupService.getGroupSeven(firstName, lastName, isDoSearch),
+      this._lookupService.getGroupEight(firstName, lastName, isDoSearch),
+      this._lookupService.getGroupNine(firstName, lastName, isDoSearch),
+      this._lookupService.getGroupTen(firstName, lastName, isDoSearch),
+    ];
+
+    from(apiCalls)
+      .pipe(
+        mergeMap(
+          (call) =>
+            call.pipe(
+              catchError((error) => of([])) // return empty array to keep the stream alive
+            ),
+          10
+        ),
+        scan(
+          (acc: LicenseInfo[], value: LicenseInfo[]) => [...acc, ...value],
+          []
+        ),
+        finalize(() => (this.loading = false))
+      )
+      .subscribe((accumulatedResults) => {
+        this.dataSource.data = accumulatedResults;
+      });
   }
 
   exportToCSV(): void {
