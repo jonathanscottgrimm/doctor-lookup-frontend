@@ -19,14 +19,12 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       - name: npm install, build, and test
         run: |
           npm install --force
-
-           npm run build
-
+          npm run build --prod
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -41,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
@@ -62,11 +60,9 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2A23591D0653456EA6215E3CD927A120 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_330B862657124A70BDA00C4A81DDA73D }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'nationallicenselookup'
-          slot-name: 'Production'
-          package: .
-
+          app-name: "nationallicenselookup"
+          package: ./dist/doctor-lookup-frontend
